@@ -45,10 +45,15 @@ public class CuratorUtils {
         client.start();
 //        Thread.sleep(5000);
         try {
+            //先将之前创建的节点删除
+//            client.delete().forPath("/empty");
+//            client.delete().forPath("/notEmpty");
+
             //创建一个空的节点
-//            client.create().forPath("/empty");
-//            //创建一个非空节点
-//            client.create().forPath("/notEmpty","this is data".getBytes());
+
+            client.create().forPath("/empty");
+            //创建一个非空节点
+            client.create().forPath("/notEmpty","this is data".getBytes());
             //创建一个空的临时节点
             client.create().withMode(CreateMode.EPHEMERAL).forPath("/itsephNode");
             //创建一个非空的临时节点
@@ -83,7 +88,8 @@ public class CuratorUtils {
 
             //更新数据
             Stat stat = client.setData().forPath("/notEmpty");
-            client.setData().withVersion(5).forPath("/notEmpty","shujuyijinggengxin".getBytes());
+
+            client.setData().forPath("/notEmpty","shujuyijinggengxin".getBytes());
             //重新读取更新后的数据
             System.out.println("更新后的/empty节点数据为："+new String(client.getData().forPath("/notEmpty")));
 
