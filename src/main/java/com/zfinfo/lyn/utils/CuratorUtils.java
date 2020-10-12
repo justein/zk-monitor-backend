@@ -28,12 +28,12 @@ public class CuratorUtils {
 
     static List<String> res = new ArrayList<>();
 
-    public static List<String> getNode(String parentNode) throws Exception {
+    public static List<String> getNode(CuratorFramework client,  String parentNode) throws Exception {
         List<String> tmpList = new ZKManager(client).getChildren(parentNode);
         for (String tmpPath:tmpList){
             String childNode = parentNode.equals("/") ? parentNode + tmpPath : parentNode + "/" + tmpPath;
             res.add(childNode);
-            getNode(childNode);
+            getNode(client,childNode);
         }
         return res;
     }
@@ -97,7 +97,7 @@ public class CuratorUtils {
 
             System.out.println("=======================================");
             System.out.println("获取所有节点内容：");
-            System.out.println(getNode("/"));
+//            System.out.println(getNode("/"));
             System.out.println("=======================================");
 
             Thread.sleep(10);
