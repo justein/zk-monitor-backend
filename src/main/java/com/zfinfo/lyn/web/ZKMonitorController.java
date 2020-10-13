@@ -6,6 +6,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.json.GsonJsonParser;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import javax.servlet.http.HttpServletResponse;
@@ -26,8 +27,8 @@ public class ZKMonitorController {
     private ZKMonitorService zkMonitorService;
 
     @GetMapping("/allzkNodes")
-    public void getZKNodes(HttpServletResponse response) throws Exception {
+    public void getZKNodes(@RequestParam("zkNodePath") String zkNodePath, HttpServletResponse response) throws Exception {
 
-        response.getWriter().print(GsonUtils.toJson(zkMonitorService.getZKNodeTree()));
+        response.getWriter().print(GsonUtils.toJson(zkMonitorService.getZKNodeTree(zkNodePath)));
     }
 }

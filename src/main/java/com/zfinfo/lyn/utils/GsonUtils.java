@@ -23,7 +23,7 @@ public class GsonUtils {
         gson = gsonBuilder.create();
     }
 
-    public static <K,V> String toJson(Map<K,V> map) {
-        return gson.toJson(map);
+    public static <V> String toJson(List<V> list) {
+        return gson.toJson(list);
     }
 }

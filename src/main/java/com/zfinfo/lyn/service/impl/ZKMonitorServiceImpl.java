@@ -1,10 +1,13 @@
 package com.zfinfo.lyn.service.impl;
 
+import com.sun.org.apache.bcel.internal.generic.LSTORE;
 import com.zfinfo.lyn.config.ZKClient;
 import com.zfinfo.lyn.constants.ZKConstant;
+import com.zfinfo.lyn.entity.TreeNode;
 import com.zfinfo.lyn.entity.ZKNode;
 import com.zfinfo.lyn.service.ZKMonitorService;
 import com.zfinfo.lyn.utils.CuratorUtils;
+import org.apache.curator.framework.recipes.cache.TreeCache;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.util.CollectionUtils;
@@ -30,16 +33,26 @@ public class ZKMonitorServiceImpl implements ZKMonitorService {
     }
 
     @Override
-    public Map<String, List<String>> getZKNodeTree() throws Exception {
+    public List<TreeNode> getZKNodeTree(String zkNodePath) throws Exception {
 
-        return getZKNodesAndPath(ZKConstant.ROOT_PATH);
+        return getZKNodesAndPath(zkNodePath);
     }
 
     /**回调模式有问题，map会清空.改为使用静态函数实现，返回全路径后，内存组装树结构*/
-    private Map<String, List<String>> getZKNodesAndPath(String parentNode) throws Exception {
-        String currentNode = parentNode;
-//        Map<String, List<String>> nodeMap = new HashMap<>();
-//
+    /**前端改为异步构造树算了，简单直接*/
+    private List<TreeNode> getZKNodesAndPath(String parentNode) throws Exception {
+        List<TreeNode> treeNodes = new ArrayList<>();
+        List<String> tmpList = zkClient.getClient().getChildren().forPath(parentNode);
+        if (!CollectionUtils.isEmpty(tmpList)) {
+            for (int i = 0; i < tmpList.size(); i++) {
+                TreeNode treeNode = new TreeNode();
+                treeNode.setTitle(tmpList.get(i));
+                treeNode.setExpanded(false);
+                treeNode.setSelected(false);
+                treeNodes.add(treeNode);
+            }
+
+        }
 //        List<String> tmpList = zkClient.getClient().getChildren().forPath(parentNode);
 //        List<ZKNode> zkNodeList = new ArrayList<>();
 //
@@ -62,13 +75,15 @@ public class ZKMonitorServiceImpl implements ZKMonitorService {
 //
 //
 //        return nodeMap;
-        List<String> strings =  CuratorUtils.getNode(zkClient.getClient(),ZKConstant.ROOT_PATH);
-        System.out.println(strings);
+//        List<String> strings =  CuratorUtils.getNode(zkClient.getClient(),ZKConstant.ROOT_PATH);
+//        TreeCache treeCache = new TreeCache(zkClient.getClient(),"/");
+//        String str =  TreeCache.newBuilder(zkClient.getClient(),"/").toString();
+//        System.out.println(str);
         /**1、先构造成树结构，返回给前端
          * 2、页面点击具体节点时，再按选中节点查询stat返回
          * 3、
          * */
-        return null;
+        return treeNodes;
     }
 
 }
