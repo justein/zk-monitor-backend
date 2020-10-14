@@ -49,6 +49,7 @@ public class ZKMonitorServiceImpl implements ZKMonitorService {
                 treeNode.setTitle(tmpList.get(i));
                 treeNode.setExpanded(false);
                 treeNode.setSelected(false);
+                treeNode.setChildren(new ArrayList<>());
                 treeNodes.add(treeNode);
             }
 
