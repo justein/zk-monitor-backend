@@ -17,20 +17,20 @@ public class ZKNode {
     /**全路径*/
     private String path;
     /**创建（create）该 znode 的 zxid*/
-    private String czxid;
+    private Long czxid;
     /**最后一次修改（modify）该 znode 的 zxid*/
-    private String mzxid;
+    private Long mzxid;
     /**最后一次修改该 znode 子节点的 zxid*/
-    private String pzxid;
+    private Long pzxid;
 
     /**创建该 znode 的时间*/
-    private Date ctime;
+    private Long ctime;
     /**最后一次修改该 znode 的时间*/
-    private Date ztime;
+    private Long ztime;
     /**该节点内容的版本，每次修改内容，版本都会增加*/
-    private String dataVersion;
+    private Integer dataVersion;
     /**该节点子节点的版本*/
-    private String cversion;
+    private Integer cversion;
     /**该节点的 ACL 版本*/
     private String aclVersion;
     /**如果该节点是临时节点（ephemeral node），会列出该节点所在客户端的 session id；如果不是临时节点，该值为 0*/
@@ -42,69 +42,79 @@ public class ZKNode {
 
     private List<ZKNode> childrenNodes;
 
-    public String getCzxid() {
+    public String getId() {
+        return id;
+    }
+
+    public void setId(String id) {
+        this.id = id;
+    }
+
+    public String getPath() {
+        return path;
+    }
+
+    public void setPath(String path) {
+        this.path = path;
+    }
+
+    public Long getCzxid() {
         return czxid;
     }
 
-    public void setCzxid(String czxid) {
+    public void setCzxid(Long czxid) {
         this.czxid = czxid;
     }
 
-    public String getMzxid() {
+    public Long getMzxid() {
         return mzxid;
     }
 
-    public void setMzxid(String mzxid) {
+    public void setMzxid(Long mzxid) {
         this.mzxid = mzxid;
     }
 
-    public String getPzxid() {
+    public Long getPzxid() {
         return pzxid;
     }
 
-    public void setPzxid(String pzxid) {
+    public void setPzxid(Long pzxid) {
         this.pzxid = pzxid;
     }
 
-    public Date getCtime() {
+    public Long getCtime() {
         return ctime;
     }
 
-    public void setCtime(Date ctime) {
+    public void setCtime(Long ctime) {
         this.ctime = ctime;
     }
 
-    public Date getZtime() {
+    public Long getZtime() {
         return ztime;
     }
 
-    public void setZtime(Date ztime) {
+    public void setZtime(Long ztime) {
         this.ztime = ztime;
     }
 
-    public String getDataVersion() {
+    public Integer getDataVersion() {
         return dataVersion;
     }
 
-    public void setDataVersion(String dataVersion) {
+    public void setDataVersion(Integer dataVersion) {
         this.dataVersion = dataVersion;
     }
 
-    public String getCversion() {
+    public Integer getCversion() {
         return cversion;
     }
 
-    public void setCversion(String cversion) {
+    public void setCversion(Integer cversion) {
         this.cversion = cversion;
     }
 
-    public String getAclVersion() {
-        return aclVersion;
-    }
 
-    public void setAclVersion(String aclVersion) {
-        this.aclVersion = aclVersion;
-    }
 
     public String getEphemeralOwner() {
         return ephemeralOwner;
@@ -128,23 +138,6 @@ public class ZKNode {
 
     public void setNumChildren(Integer numChildren) {
         this.numChildren = numChildren;
-    }
-
-
-    public String getId() {
-        return id;
-    }
-
-    public void setId(String id) {
-        this.id = id;
-    }
-
-    public String getPath() {
-        return path;
-    }
-
-    public void setPath(String path) {
-        this.path = path;
     }
 
     public List<ZKNode> getChildrenNodes() {

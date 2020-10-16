@@ -26,4 +26,8 @@ public class GsonUtils {
     public static <V> String toJson(List<V> list) {
         return gson.toJson(list);
     }
+
+    public static <T> String toJson(T entity) {
+        return gson.toJson(entity);
+    }
 }

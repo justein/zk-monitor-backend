@@ -8,6 +8,8 @@ import com.zfinfo.lyn.entity.ZKNode;
 import com.zfinfo.lyn.service.ZKMonitorService;
 import com.zfinfo.lyn.utils.CuratorUtils;
 import org.apache.curator.framework.recipes.cache.TreeCache;
+import org.apache.curator.framework.recipes.leader.LeaderLatch;
+import org.apache.zookeeper.data.Stat;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.util.CollectionUtils;
@@ -38,6 +40,16 @@ public class ZKMonitorServiceImpl implements ZKMonitorService {
         return getZKNodesAndPath(zkNodePath);
     }
 
+    @Override
+    public Stat getZKNodeDetails(String zkNodePath) throws Exception {
+        // 读取节点数据
+        Stat stat = new Stat();
+        byte[] nodeData = zkClient.getClient().getData().storingStatIn(stat).forPath(zkNodePath);
+//        System.out.println("节点 " + zkNodePath + " 的数据为：" + new String(nodeData));
+
+        return stat;
+    }
+
     /**回调模式有问题，map会清空.改为使用静态函数实现，返回全路径后，内存组装树结构*/
     /**前端改为异步构造树算了，简单直接*/
     private List<TreeNode> getZKNodesAndPath(String parentNode) throws Exception {
@@ -47,8 +59,9 @@ public class ZKMonitorServiceImpl implements ZKMonitorService {
             for (int i = 0; i < tmpList.size(); i++) {
                 TreeNode treeNode = new TreeNode();
                 treeNode.setTitle(tmpList.get(i));
-                treeNode.setExpanded(false);
+                treeNode.setExpand(true);
                 treeNode.setSelected(false);
+                treeNode.setLoading(false);
                 treeNode.setChildren(new ArrayList<>());
                 treeNodes.add(treeNode);
             }

@@ -4,8 +4,9 @@ import java.util.List;
 
 public class TreeNode {
     private String title;
-    private boolean expanded;
+    private boolean expand;
     private boolean selected;
+    private boolean loading;
 
     private List<TreeNode> children;
 
@@ -18,12 +19,12 @@ public class TreeNode {
         this.title = title;
     }
 
-    public boolean isExpanded() {
-        return expanded;
+    public boolean isExpand() {
+        return expand;
     }
 
-    public void setExpanded(boolean expanded) {
-        this.expanded = expanded;
+    public void setExpand(boolean expand) {
+        this.expand = expand;
     }
 
     public boolean isSelected() {
@@ -40,6 +41,14 @@ public class TreeNode {
 
     public void setChildren(List<TreeNode> children) {
         this.children = children;
+    }
+
+    public boolean isLoading() {
+        return loading;
+    }
+
+    public void setLoading(boolean loading) {
+        this.loading = loading;
     }
 }
 

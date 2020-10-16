@@ -31,4 +31,9 @@ public class ZKMonitorController {
 
         response.getWriter().print(GsonUtils.toJson(zkMonitorService.getZKNodeTree(zkNodePath)));
     }
+
+    @GetMapping("/zkStat")
+    public void getZKStatData(@RequestParam("zkNodePath") String zkNodePath, HttpServletResponse response) throws  Exception{
+        response.getWriter().print(GsonUtils.toJson(zkMonitorService.getZKNodeDetails(zkNodePath)));
+    }
 }
